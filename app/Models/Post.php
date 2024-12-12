@@ -20,4 +20,14 @@ class Post extends Model
         'movie_year', // Datum filma - spoljni kljuc ka tabeli Film
         'created_at'
     ];
+
+    public function movie()
+    {
+        return $this->belongsTo(Movie::class); //Zato sto ima vezu 1,1 ka movie
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class); //Zato sto ima vezu 1,1 ka user-u
+    }
 }

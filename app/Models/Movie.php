@@ -19,4 +19,9 @@ class Movie extends Model
     protected $guarded = [
         'movie_id'
     ];
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 }
