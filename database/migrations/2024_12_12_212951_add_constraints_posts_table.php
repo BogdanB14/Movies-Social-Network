@@ -6,13 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
+     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::table('movies', function(Blueprint $table){
-            $table->renameColumn('year_of_release','year');
+        Schema::table('posts', function (Blueprint $table) {
+            $table->string('content', 150)->change(); // Sadrzaj posta moze biti maksimalno 50 karaktera
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('movies', function(Blueprint $table){
-            $table->renameColumn('year','year_of_release');
+        Schema::table('posts', function (Blueprint $table) {
+            $table->string('content', 255)->change(); //Sadrzaj posta se vraca na defaultnu duzinu stringa
         });
     }
 };

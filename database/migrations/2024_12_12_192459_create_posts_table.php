@@ -20,7 +20,7 @@ return new class extends Migration
             $table->year('movie_year'); // Datum filma
             $table->foreign('movie_name')->references('name')->on('movies');
             $table->foreign('movie_year')->references('year')->on('movies');
-
+            $table->timestamps('created_at');
         });
     }
 

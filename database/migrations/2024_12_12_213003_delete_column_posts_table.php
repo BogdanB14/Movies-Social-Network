@@ -6,13 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
+   /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::table('movies', function(Blueprint $table){
-            $table->renameColumn('year_of_release','year');
+        Schema::table('posts', function (Blueprint $table) {
+            $table->dropColumn('content'); // Brisanje kolone content
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('movies', function(Blueprint $table){
-            $table->renameColumn('year','year_of_release');
+        Schema::table('posts', function (Blueprint $table) {
+            $table->number('content')->after('user_id'); //Vracanje kolone content na istoj poziciji u tabeli
         });
     }
 };

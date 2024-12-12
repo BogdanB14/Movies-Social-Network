@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('movies', function (Blueprint $table) {
             $table->string('main_actor')->nullable()->after('genre'); // Dodata kolona glavni glumac nakon zanra
         });
     }
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('movies', function (Blueprint $table) {
             $table->dropColumn('main_actor'); //Rollback glavnog glumca
         });
     }

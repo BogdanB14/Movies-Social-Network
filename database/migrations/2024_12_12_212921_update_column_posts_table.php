@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('movies', function(Blueprint $table){
-            $table->renameColumn('year_of_release','year');
+        Schema::table('posts', function(Blueprint $table){
+            $table->renameColumn('content','text');
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('movies', function(Blueprint $table){
-            $table->renameColumn('year','year_of_release');
+        Schema::table('posts', function(Blueprint $table){
+            $table->renameColumn('text','content');
         });
     }
 };
