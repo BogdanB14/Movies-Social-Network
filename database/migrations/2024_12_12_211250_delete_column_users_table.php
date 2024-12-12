@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->number('birth_year')->after('date_of_registration'); //Vracanje kolone birth_year na istoj poziciji u tabeli
+            $table->integer('birth_year')->after('date_of_registration'); //Vracanje kolone birth_year na istoj poziciji u tabeli
         });
     }
 };

@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('content'); // Sam tekst o filmu
             $table->string('movie_name'); // Naziv filma
             $table->year('movie_year'); // Datum filma
-            $table->foreign('movie_name')->references('name')->on('movies');
-            $table->foreign('movie_year')->references('year')->on('movies');
-            $table->timestamps('created_at');
+            $table->foreign('movie_name')->references('title')->on('movies');
+            $table->foreign('movie_year')->references('year_of_release')->on('movies');
+            $table->timestamps();
         });
     }
 

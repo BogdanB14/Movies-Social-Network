@@ -27,7 +27,7 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('name', 255)->change(); //Ime se vraca na default maksimalnu duzinu
             $table->string('last_name', 255)->change(); //Ime se vraca na default maksimalnu duzinu
-            $table->number('birth_year')->change(); // Godina rodjenja se vraca na nuber
+            $table->integer('birth_year')->change(); // Godina rodjenja se vraca na nuber
             $table->string('username', 255)->change(); //Ime se vraca na default maksimalnu duzinu
         });
     }
