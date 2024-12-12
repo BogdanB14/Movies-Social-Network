@@ -23,11 +23,12 @@ class User extends Authenticatable
         'last_name',
         'gender',
         'date_of_registration',
-        'birth_year'
+        'birth_year',
+        'username'
     ];
 
     protected $guarded = [
-        'username',
+        'user_id',
     ];
 
     /**
@@ -40,13 +41,8 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
+    }
 }

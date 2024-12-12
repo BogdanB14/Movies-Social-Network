@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id('post_id');
             $table->foreignId('user_id')->references('user_id')->on('users'); // Foreign key to the 'users' table
+            //$table->foreign('movie_name')->references('title')->on('movies');
             $table->string('content'); // Sam tekst o filmu
             $table->string('movie_name'); // Naziv filma
             $table->year('movie_year'); // Datum filma

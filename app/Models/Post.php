@@ -12,11 +12,12 @@ class Post extends Model
         'content' //Sam tekst o filmu
 
     ];
+    //Spoljni kljucevi trebaju biti u guarded i timestamps
     protected $guarded = [
         'post_id', //Id post-a
         'user_id', //User-id - ovo je spoljni kljuc ka  tabeli User
         'movie_name', // Naziv filma - spoljni kljuc ka tabeli Film
         'movie_year', // Datum filma - spoljni kljuc ka tabeli Film
-
+        'created_at'
     ];
 }
