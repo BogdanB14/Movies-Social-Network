@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function(Blueprint $table){
-            $table->renameColumn('name','first_name');
-            $table->renameColumn('birth_year','year');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('birth_year'); // Brisanje kolone birth_year
         });
     }
 
@@ -22,9 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function(Blueprint $table){
-            $table->renameColumn('first_name','name');
-            $table->renameColumn('year','birth_year');
+        Schema::table('users', function (Blueprint $table) {
+            $table->number('birth_year')->after('date_of_registration'); //Vracanje kolone birth_year na istoj poziciji u tabeli
         });
     }
 };
