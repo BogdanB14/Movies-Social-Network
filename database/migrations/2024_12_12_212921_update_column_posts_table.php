@@ -11,9 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('posts', function(Blueprint $table){
-            $table->renameColumn('content','text');
-        });
+        Schema::table('posts', function (Blueprint $table) {
+            Schema::table('posts', function (Blueprint $table) {
+                $table->string('text')->after('user_id')->nullable();
+            });
+
+            DB::statement('UPDATE `posts` SET `text` = `content`');
+
+            Schema::table('posts', function (Blueprint $table) {
+                $table->dropColumn('content');
+            });
+    });
     }
 
     /**
@@ -21,8 +29,14 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('posts', function(Blueprint $table){
-            $table->renameColumn('text','content');
+        Schema::table('posts', function (Blueprint $table) {
+            $table->string('content')->after('user_id')->nullable();
+        });
+
+        DB::statement('UPDATE `posts` SET `content` = `text`');
+
+        Schema::table('posts', function (Blueprint $table) {
+            $table->dropColumn('text');
         });
     }
 };

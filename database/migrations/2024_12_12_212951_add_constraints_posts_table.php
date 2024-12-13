@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->string('content', 150)->change(); // Sadrzaj posta moze biti maksimalno 50 karaktera
+            $table->string('text', 150)->change(); // Sadrzaj posta moze biti maksimalno 50 karaktera
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->string('content', 255)->change(); //Sadrzaj posta se vraca na defaultnu duzinu stringa
+            $table->string('text', 255)->change(); //Sadrzaj posta se vraca na defaultnu duzinu stringa
         });
     }
 };

@@ -11,8 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('birth_year'); // Brisanje kolone birth_year
+        Schema::table('movies', function (Blueprint $table) {
+            // Add the new column
+            $table->year('year')->nullable();
+        });
+
+        // Copy data from the old column to the new one
+        DB::statement('UPDATE `movies` SET `year` = `year_of_release`');
+
+        // Drop the old column
+        Schema::table('movies', function (Blueprint $table) {
+            $table->dropColumn('year_of_release');
         });
     }
 
@@ -21,8 +30,17 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->integer('birth_year')->after('date_of_registration'); //Vracanje kolone birth_year na istoj poziciji u tabeli
+        Schema::table('movies', function (Blueprint $table) {
+            // Add the new column
+            $table->year('year_of_release')->nullable();
+        });
+
+        // Copy data from the old column to the new one
+        DB::statement('UPDATE `movies` SET `year_of_release` = `year`');
+
+        // Drop the old column
+        Schema::table('movies', function (Blueprint $table) {
+            $table->dropColumn('year');
         });
     }
 };

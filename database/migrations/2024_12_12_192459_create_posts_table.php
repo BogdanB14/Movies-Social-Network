@@ -11,16 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::dropIfExists('posts');
         Schema::create('posts', function (Blueprint $table) {
             $table->id('post_id');
-            $table->foreignId('user_id')->references('user_id')->on('users'); // Foreign key to the 'users' table
-            //$table->foreign('movie_name')->references('title')->on('movies');
-            $table->string('content'); // Sam tekst o filmu
-            $table->string('movie_name'); // Naziv filma
-            $table->year('movie_year'); // Datum filma
-            $table->foreign('movie_name')->references('title')->on('movies');
-            $table->foreign('movie_year')->references('year_of_release')->on('movies');
+            $table->unsignedBigInteger('movie_id'); // Explicitly define as unsignedBigInteger
+            $table->unsignedBigInteger('user_id'); // Explicitly define as unsignedBigInteger
+            $table->string('content');
             $table->timestamps();
+            $table->foreign('movie_id')->references('movie_id')->on('movies')->onDelete('cascade');
+            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
         });
     }
 

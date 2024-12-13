@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->dropColumn('content'); // Brisanje kolone content
+            $table->dropColumn('text'); // Brisanje kolone content
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->number('content')->after('user_id'); //Vracanje kolone content na istoj poziciji u tabeli
+            $table->string('text')->after('user_id'); //Vracanje kolone content na istoj poziciji u tabeli
         });
     }
 };

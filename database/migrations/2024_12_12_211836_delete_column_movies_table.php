@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('movies', function (Blueprint $table) {
-            $table->number('language')->after('director'); //Vracanje kolone language na istoj poziciji u tabeli
+            $table->string('language'); //Vracanje kolone language na istoj poziciji u tabeli
         });
     }
 };

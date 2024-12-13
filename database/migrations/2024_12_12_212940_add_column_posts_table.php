@@ -12,7 +12,7 @@ return new class extends Migration
         public function up(): void
         {
             Schema::table('posts', function (Blueprint $table) {
-                $table->bigint('likes')->nullable()->after('created_at'); // Dodata kolona broj lajkova nakon vreme kreiranja
+                $table->integer('likes')->nullable()->after('created_at'); // Dodata kolona broj lajkova nakon vreme kreiranja
             });
         }
 
