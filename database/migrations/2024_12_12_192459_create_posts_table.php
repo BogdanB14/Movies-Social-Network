@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::dropIfExists('posts');
         Schema::create('posts', function (Blueprint $table) {
             $table->id('post_id');
+            $table->string('title');
             $table->unsignedBigInteger('movie_id'); // Explicitly define as unsignedBigInteger
             $table->unsignedBigInteger('user_id'); // Explicitly define as unsignedBigInteger
             $table->string('content');

@@ -13,6 +13,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', function () {   //Bez rute ce biti stranica za registarciju
+    //return view('registration');
+    return 'Please register';
 });
+
+Route::get('/home', function () {
+    //return view('home');
+    return 'Welcome to home page';
+});
+
+Route::get('/login', function () {
+    //return view('login');
+    return 'Hello, login first';
+});
+
+Route::get('/dashboard', function () {
+    //return view('dash');
+    return 'Here is your dashboard admin';
+});
+
+Route::get('/profile', function () {
+    //return view('profile');
+    return 'Welcome to your profile';
+});
+

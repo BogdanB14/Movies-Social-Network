@@ -9,6 +9,7 @@ class Post extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'title',
         'content', //Sam tekst o filmu
         'user_id', //User-id - ovo je spoljni kljuc ka  tabeli User
         'movie_id',

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->dropColumn('text'); // Brisanje kolone content
+            $table->dropColumn('created_at'); // Brisanje kolone content
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->string('text')->after('user_id'); //Vracanje kolone content na istoj poziciji u tabeli
+            $table->timestamps('created_at')->after('movie_id'); //Vracanje kolone content na istoj poziciji u tabeli
         });
     }
 };
