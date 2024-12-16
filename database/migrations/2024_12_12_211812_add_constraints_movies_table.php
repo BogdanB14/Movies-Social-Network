@@ -12,8 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('movies', function (Blueprint $table) {
-            $table->string('genre', 20)->change(); // Zanr filma moze biti maksimalno 20 karaktera
-            $table->string('language', 15)->change(); // Jezik filma moze biti maksimalno 15 karaktera
+            // Check if the 'genre' column exists before changing it
+            if (Schema::hasColumn('movies', 'genre')) {
+                $table->string('genre', 20)->change(); // Change genre to a max length of 20
+            }
+
+            if (Schema::hasColumn('movies', 'language')) {
+                $table->string('language', 15)->change(); // Change language to a max length of 15
+            }
         });
     }
 
@@ -23,8 +29,13 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('movies', function (Blueprint $table) {
-            $table->string('genre', 255)->change(); //Zanr se vraca na default maksimalnu duzinu
-            $table->string('language', 255)->change(); //Jezik se vraca na default maksimalnu duzinu
-        });
+        if (Schema::hasColumn('movies', 'genre')) {
+            $table->string('genre', 255)->change(); // Revert genre to its default max length
+        }
+        if (Schema::hasColumn('movies', 'language')) {
+            $table->string('language', 255)->change(); // Revert language to its default max length
+        }
+
+    });
     }
 };

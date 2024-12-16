@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void //Ovo je commit funkcija
     {
+        Schema::dropIfExists('users');
         Schema::create('users', function (Blueprint $table) {
             $table->id("user_id")->unique();
             $table->string('username')->unique();

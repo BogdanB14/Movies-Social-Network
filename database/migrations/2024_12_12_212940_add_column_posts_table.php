@@ -12,7 +12,9 @@ return new class extends Migration
         public function up(): void
         {
             Schema::table('posts', function (Blueprint $table) {
-                $table->integer('likes')->nullable()->after('created_at'); // Dodata kolona broj lajkova nakon vreme kreiranja
+                if (!Schema::hasColumn('posts', 'likes')) {
+                    $table->integer('likes')->nullable()->after('created_at'); // Add column 'likes' after 'created_at'
+                }
             });
         }
 
@@ -22,7 +24,9 @@ return new class extends Migration
         public function down(): void
         {
             Schema::table('posts', function (Blueprint $table) {
-                $table->dropColumn('likes'); //Rollback broja lajkova
+                if (Schema::hasColumn('posts', 'likes')) {
+                    $table->dropColumn('likes'); // Remove 'likes' column
+                }
             });
         }
 };

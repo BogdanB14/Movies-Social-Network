@@ -12,8 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('middle_name')->nullable()->after('name'); // Dodata kolona srednje ime
-            $table->string('address')->nullable()->after('last_name'); // Dodata kolona adresa user-a
+            // Check if the 'middle_name' column does not exist before adding it
+            if (!Schema::hasColumn('users', 'middle_name')) {
+                $table->string('middle_name')->nullable()->after('name'); // Adding 'middle_name' column
+            }
+
+            // Check if the 'address' column does not exist before adding it
+            if (!Schema::hasColumn('users', 'address')) {
+                $table->string('address')->nullable()->after('last_name'); // Adding 'address' column
+            }
         });
     }
 
@@ -23,8 +30,15 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('middle_name'); //Rollback srednje ime
-            $table->dropColumn('address'); //Rollback adrese
+            // Check if 'middle_name' column exists before attempting to drop it
+            if (Schema::hasColumn('users', 'middle_name')) {
+                $table->dropColumn('middle_name'); // Dropping the 'middle_name' column
+            }
+
+            // Check if 'address' column exists before attempting to drop it
+            if (Schema::hasColumn('users', 'address')) {
+                $table->dropColumn('address'); // Dropping the 'address' column
+            }
         });
     }
 };

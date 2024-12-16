@@ -11,17 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('posts', function (Blueprint $table) {
+        if (!Schema::hasColumn('posts', 'text')) {
             Schema::table('posts', function (Blueprint $table) {
-                $table->string('text')->after('user_id')->nullable();
+                $table->string('text')->after('user_id')->nullable(); // Add 'text' column after 'user_id'
             });
+        }
 
-            DB::statement('UPDATE `posts` SET `text` = `content`');
+        if (Schema::hasColumn('posts', 'content')) {
+            DB::statement('UPDATE `posts` SET `text` = `content`'); // Copy 'content' values to 'text'
+        }
 
+        if (Schema::hasColumn('posts', 'content')) {
             Schema::table('posts', function (Blueprint $table) {
-                $table->dropColumn('content');
+                $table->dropColumn('content'); // Remove 'content' column
             });
-    });
+        }
+
     }
 
     /**
@@ -29,14 +34,19 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('posts', function (Blueprint $table) {
-            $table->string('content')->after('user_id')->nullable();
-        });
+        if (!Schema::hasColumn('posts', 'content')) {
+            Schema::table('posts', function (Blueprint $table) {
+                $table->string('content')->after('user_id')->nullable(); // Add 'content' column after 'user_id'
+            });
+        }
+        if (Schema::hasColumn('posts', 'text')) {
+            DB::statement('UPDATE `posts` SET `content` = `text`'); // Copy 'text' values to 'content'
+        }
 
-        DB::statement('UPDATE `posts` SET `content` = `text`');
-
-        Schema::table('posts', function (Blueprint $table) {
-            $table->dropColumn('text');
-        });
+        if (Schema::hasColumn('posts', 'text')) {
+            Schema::table('posts', function (Blueprint $table) {
+                $table->dropColumn('text'); // Remove 'text' column
+            });
+        }
     }
 };

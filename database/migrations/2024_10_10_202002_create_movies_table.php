@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::dropIfExists('movies');
         Schema::create('movies', function (Blueprint $table) {
             $table->id('movie_id')->unique(); // Specify 'movie_id' as the primary key
             $table->string('title');

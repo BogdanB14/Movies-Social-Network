@@ -13,18 +13,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('movies', function (Blueprint $table) {
+            // Add the 'producer' column after 'title' if it doesn't exist
             Schema::table('movies', function (Blueprint $table) {
-                // Nova kolona 'year' koja menja kolonu 'year_of_release'
-                $table->string('producer')->after('title')->nullable();
-            });
+            if (!Schema::hasColumn('movies', 'producer')) {
+                $table->string('producer')->nullable()->after('title');
+            }
 
             // Svi redovi iz kolone 'year_of_release' se lepe u novu kolonu 'year'
+            if (Schema::hasColumn('movies', 'producer')){
             DB::statement('UPDATE `movies` SET `producer` = `director`');
-
+            }
             // Brise se stara kolona
-            Schema::table('movies', function (Blueprint $table) {
+            if (Schema::hasColumn('movies', 'director')) {
                 $table->dropColumn('director');
-            });
+            }
+        });
     });
     }
 
@@ -34,13 +37,17 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('movies', function (Blueprint $table) {
-            $table->year('director')->nullable();
-        });
-
-        DB::statement('UPDATE `movies` SET `director` = `producer`');
+            // Recreate the 'director' column if it doesn't exist
+            if (!Schema::hasColumn('movies', 'director')) {
+                $table->string('director')->nullable()->after('producer');
+            }
+            if(Schema::hasColumn('movies','director')){
+            DB::statement('UPDATE `movies` SET `director` = `producer`');
+            }
         //Obrnuti proces od metode up()
-        Schema::table('movies', function (Blueprint $table) {
+        if (Schema::hasColumn('movies', 'producer')) {
             $table->dropColumn('producer');
-        });
+        }
+    });
     }
 };

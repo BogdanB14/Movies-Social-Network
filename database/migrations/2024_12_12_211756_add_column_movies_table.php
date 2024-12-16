@@ -12,7 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('movies', function (Blueprint $table) {
-            $table->string('main_actor')->nullable()->after('genre'); // Dodata kolona glavni glumac nakon zanra
+            // Check if the 'main_actor' column does not already exist before adding it
+            if (!Schema::hasColumn('movies', 'main_actor')) {
+                $table->string('main_actor')->nullable()->after('genre'); // Add the 'main_actor' column after 'genre'
+            }
         });
     }
 
@@ -22,7 +25,10 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('movies', function (Blueprint $table) {
-            $table->dropColumn('main_actor'); //Rollback glavnog glumca
+            // Check if the 'main_actor' column exists before dropping it
+            if (Schema::hasColumn('movies', 'main_actor')) {
+                $table->dropColumn('main_actor'); // Drop the 'main_actor' column
+            }
         });
     }
 };

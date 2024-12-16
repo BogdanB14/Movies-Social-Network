@@ -12,16 +12,23 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('movies', function (Blueprint $table) {
-            // Add the new column
-            $table->year('year')->nullable();
+            // Add the new 'year' column if it doesn't already exist
+            if (!Schema::hasColumn('movies', 'year')) {
+                $table->year('year')->nullable();
+            }
         });
 
+
         // Copy data from the old column to the new one
-        DB::statement('UPDATE `movies` SET `year` = `year_of_release`');
+        if (Schema::hasColumn('movies', 'year_of_release')) {
+            DB::statement('UPDATE `movies` SET `year` = `year_of_release`');
+        }
 
         // Drop the old column
         Schema::table('movies', function (Blueprint $table) {
-            $table->dropColumn('year_of_release');
+            if (Schema::hasColumn('movies', 'year_of_release')) {
+                $table->dropColumn('year_of_release');
+            }
         });
     }
 
@@ -31,16 +38,22 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('movies', function (Blueprint $table) {
-            // Add the new column
-            $table->year('year_of_release')->nullable();
+            // Add the 'year_of_release' column if it doesn't already exist
+            if (!Schema::hasColumn('movies', 'year_of_release')) {
+                $table->year('year_of_release')->nullable();
+            }
         });
 
-        // Copy data from the old column to the new one
-        DB::statement('UPDATE `movies` SET `year_of_release` = `year`');
+        // Copy data from the old column to the new one        if (Schema::hasColumn('movies', 'year')) {
+            if (Schema::hasColumn('movies', 'year')) {
+                DB::statement('UPDATE `movies` SET `year_of_release` = `year`');
+            }
 
         // Drop the old column
         Schema::table('movies', function (Blueprint $table) {
-            $table->dropColumn('year');
+            if (Schema::hasColumn('movies', 'year')) {
+                $table->dropColumn('year');
+            }
         });
     }
 };

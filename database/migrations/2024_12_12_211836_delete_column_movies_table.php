@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('movies', function (Blueprint $table) {
-            $table->dropColumn('language'); // Brisanje kolone language
-        });
+        if (Schema::hasColumn('movies', 'language')) {
+            Schema::table('movies', function (Blueprint $table) {
+                $table->dropColumn('language'); // Drop 'language' column
+            });
+        }
     }
 
     /**
@@ -21,8 +23,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('movies', function (Blueprint $table) {
-            $table->string('language'); //Vracanje kolone language na istoj poziciji u tabeli
-        });
+        if (!Schema::hasColumn('movies', 'language')) {
+            Schema::table('movies', function (Blueprint $table) {
+                $table->string('language'); // Add 'language' column back
+            });
+        }
     }
 };

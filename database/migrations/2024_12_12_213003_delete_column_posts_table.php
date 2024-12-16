@@ -12,7 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->dropColumn('created_at'); // Brisanje kolone content
+            // Check if the column exists before attempting to drop it
+            if (Schema::hasColumn('posts', 'created_at')) {
+                $table->dropColumn('created_at'); // Drop the 'created_at' column
+            }
         });
     }
 
@@ -22,7 +25,10 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->timestamps('created_at')->after('movie_id'); //Vracanje kolone content na istoj poziciji u tabeli
+            // Check if the column does not exist before attempting to add it
+            if (!Schema::hasColumn('posts', 'created_at')) {
+                $table->timestamp('created_at')->after('movie_id')->nullable(); // Add 'created_at' column
+            }
         });
     }
 };

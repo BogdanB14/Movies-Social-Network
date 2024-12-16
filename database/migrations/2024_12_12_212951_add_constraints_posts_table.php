@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('posts', function (Blueprint $table) {
-            $table->string('text', 150)->change(); // Sadrzaj posta moze biti maksimalno 50 karaktera
-        });
+        if (Schema::hasColumn('posts', 'text')) {
+            Schema::table('posts', function (Blueprint $table) {
+                $table->string('text', 150)->change(); // Limit 'text' to 150 characters
+            });
+        }
     }
 
     /**
@@ -21,8 +23,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('posts', function (Blueprint $table) {
-            $table->string('text', 255)->change(); //Sadrzaj posta se vraca na defaultnu duzinu stringa
-        });
+        if (Schema::hasColumn('posts', 'text')) {
+            Schema::table('posts', function (Blueprint $table) {
+                $table->string('text', 255)->change(); // Revert 'text' to default 255 characters
+            });
+        }
     }
 };

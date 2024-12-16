@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -10,20 +11,18 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    { //Na internetu smo nasli funkciju RENAME COLUMN koja nije kompatibilna sa ovom verzijom
-        Schema::table('users', function(Blueprint $table){
-            Schema::table('users', function (Blueprint $table) {
-                //Nova kolona se dodaje u tabelu
-                $table->year('year')->after('date_of_registration')->nullable();
-            });
+    {
+        Schema::table('users', function (Blueprint $table) {
+            // Add the new column after 'date_of_registration'
+            $table->year('year')->nullable()->after('date_of_registration');
+        });
 
-            // Vrednosti iz kolone koju brisem stavljam u novu kolonu
-            DB::statement('UPDATE `users` SET `year` = `birth_year`');
+        // Transfer the data from the 'birth_year' column to the new 'year' column
+        DB::statement('UPDATE `users` SET `year` = `birth_year`');
 
-            //Brisem staru kolonu
-            Schema::table('users', function (Blueprint $table) {
-                $table->dropColumn('birth_year');
-            });
+        // Drop the old 'birth_year' column
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('birth_year');
         });
     }
 
@@ -32,19 +31,17 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //Obrnuti proces od up() funkcije
-        Schema::table('users', function(Blueprint $table){
-            Schema::table('users', function (Blueprint $table) {
-                $table->year('birth_year')->nullable();
-            });
+        // Add the 'birth_year' column back
+        Schema::table('users', function (Blueprint $table) {
+            $table->year('birth_year')->nullable()->after('date_of_registration');
+        });
 
+        // Transfer the data from the 'year' column back to the 'birth_year' column
+        DB::statement('UPDATE `users` SET `birth_year` = `year`');
 
-            DB::statement('UPDATE `users` SET `birth_year` = `year`');
-
-
-            Schema::table('users', function (Blueprint $table) {
-                $table->dropColumn('year');
-            });
+        // Drop the 'year' column
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('year');
         });
     }
 };
