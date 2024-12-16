@@ -4,10 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Movie;
+use App\Models\User;
 
 class Post extends Model
 {
     use HasFactory;
+
+    protected $primaryKey = 'post_id';
+
     protected $fillable = [
         'title',
         'content', //Sam tekst o filmu
@@ -23,11 +28,11 @@ class Post extends Model
 
     public function movie()
     {
-        return $this->belongsTo(Movie::class); //Zato sto ima vezu 1,1 ka movie
+        return $this->belongsTo(Movie::class, 'movie_id', 'movie_id'); // Foreign key is movie_id
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class); //Zato sto ima vezu 1,1 ka user-u
+        return $this->belongsTo(User::class, 'user_id', 'user_id'); // Foreign key is user_id
     }
 }

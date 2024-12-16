@@ -3,14 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class UserController extends Controller
 {
-    public function showUser($id){
-        $user =  null;
-        $user = User::find($id);
-        if($user == null) 
+    public function showUser($user_id)
+    {
+        $user = User::find($user_id);
+
+        if ($user === null) {
             return response()->json('User not found', 404);
-        else return response()->json($user);    
+        }
+
+        return response()->json($user);
     }
 }

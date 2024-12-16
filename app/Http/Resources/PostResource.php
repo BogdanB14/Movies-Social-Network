@@ -16,10 +16,10 @@ class PostResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'movie_name' => $this->movie->title, // assuming 'name' is a field in the 'movies' table
-            'release_year' => $this->movie->year_of_release,
-            'name' => $this->user->name, // assuming 'username' is a field in the 'users' table
-            'genre' => $this->movie->genre
+            'movie_name' => $this->movie ? $this->movie->title : null,
+            'release_year' => $this->movie ? $this->movie->year : null,
+            'name' => $this->user ? $this->user->username : null,
+            'genre' => $this->movie ? $this->movie->genre : null
         ];
     }
 }

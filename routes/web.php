@@ -37,4 +37,3 @@ Route::get('/profile', function () {
     //return view('profile');
     return 'Welcome to your profile';
 });
-

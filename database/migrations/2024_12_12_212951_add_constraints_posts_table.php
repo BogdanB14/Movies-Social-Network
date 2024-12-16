@@ -13,7 +13,7 @@ return new class extends Migration
     {
         if (Schema::hasColumn('posts', 'text')) {
             Schema::table('posts', function (Blueprint $table) {
-                $table->string('text', 150)->change(); // Limit 'text' to 150 characters
+                $table->text('text')->change(); // Limit 'text'
             });
         }
     }
@@ -25,7 +25,7 @@ return new class extends Migration
     {
         if (Schema::hasColumn('posts', 'text')) {
             Schema::table('posts', function (Blueprint $table) {
-                $table->string('text', 255)->change(); // Revert 'text' to default 255 characters
+                $table->string('text')->change(); // Revert 'text'
             });
         }
     }

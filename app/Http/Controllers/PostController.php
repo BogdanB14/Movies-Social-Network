@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
+use App\Models\Movie;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -45,6 +46,16 @@ class PostController extends Controller
         $post = Post::findOrFail($id); // Find the post by ID
         $post->delete(); // Delete the post
         return response()->noContent(); // Return no content (successful deletion)
+    }
+
+    public function findPost($user_id, $movie_id)
+    {
+        $post = Post::with(['user', 'movie'])
+                    ->where('user_id', $user_id)
+                    ->where('movie_id', $movie_id)
+                    ->firstOrFail();
+
+        return new PostResource($post);
     }
 
 }
