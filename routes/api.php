@@ -26,3 +26,4 @@ Route::apiResource('posts', PostController::class);
 Route::get('posts/{user_id}/{movie_id}', [PostController::class, 'findPost']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);
