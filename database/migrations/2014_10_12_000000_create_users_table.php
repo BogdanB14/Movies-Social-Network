@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('last_name');
             $table->string('gender');
-            $table->date('date_of_registration');
+            $table->date('date_of_registration')->default(now());
             $table->integer('birth_year');
             $table->rememberToken();
             $table->timestamps();
