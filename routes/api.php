@@ -17,6 +17,15 @@ use App\Http\Controllers\API\AuthController;
 |
 */
 
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/profile', function(Request $request) {
+        return auth()->user();
+    });
+    Route::resource('posts', PostController::class)->only(['update','store','goodbye']);
+
+    Route::post('/logout', [AuthController::class, 'logout']);
+});
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -26,4 +35,3 @@ Route::apiResource('posts', PostController::class);
 Route::get('posts/{user_id}/{movie_id}', [PostController::class, 'findPost']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout']);

@@ -7,7 +7,8 @@ use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Models\Movie;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 class PostController extends Controller
 {
 
@@ -58,4 +59,52 @@ class PostController extends Controller
         return new PostResource($post);
     }
 
+
+    public function storeMieuw(Request $request){ //Tamara voli macke
+      $validator = Validator::make($request->all(), [
+          'title' => 'required|string|max:40',
+          'content' => 'required|string|max:255',
+          'movie_id' => 'required|exists:movies,movie_id',
+          'user_id' => 'required|exists:users,id',
+
+      ]);
+
+      if ($validator->fails()){
+          return response()->json($validator->errors());
+}
+
+
+      $post = Post::create([
+          'title' => $request->title,
+          'content' => $request->content,
+          'movie' => $request->movie_id,
+          'user_id' => Auth::user()->id,
+      ]);
+
+      return response()->json(['Post created successfully.', new PostResource($post)]);
+  }
+
+  public function updateMieuw(Request $request, Post $post)
+    {
+        $validator = Validator::make($request->all(), [
+          'title' => 'required|string|max:40',
+          'content' => 'required|string|max:255'
+        ]);
+
+        if ($validator->fails())
+            return response()->json($validator->errors());
+
+            $post->title = $request->title;
+            $post->content = $request->content;
+
+        $post->save();
+
+        return response()->json(['Post is updated successfully.', new PostResource($post)]);
+    }
+
+    public function goodbye(Post $post)
+    {
+        $post->delete();
+        return response()->json('Post is deleted successfully.');
+    }
 }
