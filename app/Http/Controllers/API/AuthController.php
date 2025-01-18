@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Admin;
 
 class AuthController extends Controller
 {
@@ -42,7 +43,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        if (!(Auth::attempt($request->only('username', 'password')))) 
+        if (!(Auth::attempt($request->only('username', 'password'))))
 	    {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
@@ -51,11 +52,25 @@ class AuthController extends Controller
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        return response()->json(['message' => 'Hi ' . $user->name . ', welcome to home', 'access_token' => $token, 'token_type' => 'Bearer',]);
+        return response()->json(['message' => 'Zdravo kmete ' . $user->name . ', dobrodosao kuci', 'access_token' => $token, 'token_type' => 'Bearer',]);
     }
 
     public function logout(){
         auth()->user()->tokens()->delete();
         return['message' => 'You have succesfully logged out.'];
+    }
+
+
+    public function loginAdmin(Request $request)
+    {
+        if (!Auth::guard('admin')->attempt($request->only('email',   'password'))) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        $admin = Admin::where('email', $request['email'])->firstOrFail();
+
+        $token = $admin->createToken('auth_token')->plainTextToken;
+
+        return response()->json(['message' => 'Zdravo kmete ' . $admin->name . ', dobrodosao kuci', 'access_token' => $token, 'token_type' => 'Bearer']);
     }
 }

@@ -12,6 +12,16 @@ use Illuminate\Support\Facades\Validator;
 class PostController extends Controller
 {
 
+    public function indexPaginacija(Request $request){
+        $posts = Post::query();
+
+        // Filtriranje po kategoriji
+        if ($request->has('category')) {
+            $posts->where('category', $request->input('category'));
+        }
+        return $posts->paginate(10);// Paginacija (10 postova po stranici)
+    }
+
     // Get all posts
     public function index()
     {

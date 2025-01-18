@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->unsignedBigInteger('movie_id'); // Explicitly define as unsignedBigInteger
             $table->unsignedBigInteger('user_id'); // Explicitly define as unsignedBigInteger
-            $table->string('content');
+            $table->text('content');
             $table->timestamps();
             $table->foreign('movie_id')->references('movie_id')->on('movies')->onDelete('cascade');
             $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');

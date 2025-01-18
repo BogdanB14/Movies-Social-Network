@@ -13,7 +13,7 @@ return new class extends Migration
     {
         if (!Schema::hasColumn('posts', 'text')) {
             Schema::table('posts', function (Blueprint $table) {
-                $table->string('text')->after('user_id')->nullable(); // Add 'text' column after 'user_id'
+                $table->text('text')->after('user_id')->nullable(); // Add 'text' column after 'user_id'
             });
         }
 
