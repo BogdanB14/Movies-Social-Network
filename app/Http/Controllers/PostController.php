@@ -70,13 +70,12 @@ class PostController extends Controller
     }
 
 
-    public function storeMieuw(Request $request){ //Tamara voli macke
+    public function storeMieuw(Request $request){
       $validator = Validator::make($request->all(), [
           'title' => 'required|string|max:40',
           'content' => 'required|string|max:255',
           'movie_id' => 'required|exists:movies,movie_id',
           'user_id' => 'required|exists:users,id',
-
       ]);
 
       if ($validator->fails()){

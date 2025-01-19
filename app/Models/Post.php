@@ -20,7 +20,7 @@ class Post extends Model
         'movie_id',
         'created_at'
     ];
-    //Spoljni kljucevi trebaju biti u guarded i timestamps
+    
     protected $guarded = [
         'post_id', //Id post-a
 

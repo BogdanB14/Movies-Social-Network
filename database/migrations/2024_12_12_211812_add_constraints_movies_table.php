@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::table('movies', function (Blueprint $table) {
             // Check if the 'genre' column exists before changing it
             if (Schema::hasColumn('movies', 'genre')) {
-                $table->string('genre', 20)->change(); // Change genre to a max length of 20
+                $table->string('genre', 20)->change(); //Ogranicava zanr na maksimalno 20 karaktera
             }
 
             if (Schema::hasColumn('movies', 'language')) {
-                $table->string('language', 15)->change(); // Change language to a max length of 15
+                $table->string('language', 15)->change(); //Ogranicava language na maksimum 15 karaktera
             }
         });
     }
@@ -30,10 +30,10 @@ return new class extends Migration
     {
         Schema::table('movies', function (Blueprint $table) {
         if (Schema::hasColumn('movies', 'genre')) {
-            $table->string('genre', 255)->change(); // Revert genre to its default max length
+            $table->string('genre', 255)->change(); // Rollback funkcije up
         }
         if (Schema::hasColumn('movies', 'language')) {
-            $table->string('language', 255)->change(); // Revert language to its default max length
+            $table->string('language', 255)->change();
         }
 
     });

@@ -17,7 +17,7 @@ class PostResource extends JsonResource
     {
         return [
             'movie_name' => $this->movie ? $this->movie->title : null,
-            'release_year' => $this->movie ? $this->movie->year : null,
+            'release_pyear' => $this->movie ? $this->movie->year : null,
             'name' => $this->user ? $this->user->username : null,
             'genre' => $this->movie ? $this->movie->genre : null
         ];

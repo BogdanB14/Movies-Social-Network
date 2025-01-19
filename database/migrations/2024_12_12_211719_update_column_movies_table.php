@@ -13,13 +13,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('movies', function (Blueprint $table) {
-            // Add the 'producer' column after 'title' if it doesn't exist
+            // Dodaje kolonu producer ako vec ne postoji u tabeli nakon kolone title
             Schema::table('movies', function (Blueprint $table) {
             if (!Schema::hasColumn('movies', 'producer')) {
                 $table->string('producer')->nullable()->after('title');
             }
 
-            // Svi redovi iz kolone 'year_of_release' se lepe u novu kolonu 'year'
+            // Svi redovi iz kolone 'director' se lepe u novu kolonu ''producer
             if (Schema::hasColumn('movies', 'producer')){
             DB::statement('UPDATE `movies` SET `producer` = `director`');
             }
@@ -37,7 +37,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('movies', function (Blueprint $table) {
-            // Recreate the 'director' column if it doesn't exist
+            //Dodaje kolonu director ako vec ne postoji u tabeli nakon kolone title
             if (!Schema::hasColumn('movies', 'director')) {
                 $table->string('director')->nullable()->after('producer');
             }

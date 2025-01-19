@@ -16,6 +16,21 @@ use Inertia\Inertia;
 |
 */
 
+// Home route
+Route::get('/', function () {
+    return view('welcome'); //
+});
+
+// Dashboard route
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth']);
+
+// Profile route
+Route::get('/profile', function () {
+    return view('profile');
+})->middleware(['auth']);
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),

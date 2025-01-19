@@ -6,26 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-   /**
-     * Run the migrations.
-     */
+
     public function up(): void
     {
         if (Schema::hasColumn('movies', 'language')) {
             Schema::table('movies', function (Blueprint $table) {
-                $table->dropColumn('language'); // Drop 'language' column
+                $table->dropColumn('language'); //Brise kolonu langugage
             });
         }
     }
 
-    /**
-     * Reverse the migrations.
-     */
+
     public function down(): void
     {
         if (!Schema::hasColumn('movies', 'language')) {
             Schema::table('movies', function (Blueprint $table) {
-                $table->string('language'); // Add 'language' column back
+                $table->string('language'); // Rollback funkcije up
             });
         }
     }

@@ -19,6 +19,11 @@ class Admin extends Authenticatable
         'password',
     ];
 
+    protected $guarded = [
+        'admin_id'
+    ];
+
+
 
     protected $hidden = [
         'password',
@@ -28,7 +33,6 @@ class Admin extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
     }
