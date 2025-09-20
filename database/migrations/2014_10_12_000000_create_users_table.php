@@ -9,18 +9,16 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void //Ovo je commit funkcija
+    public function up(): void
     {
-        Schema::dropIfExists('users');
         Schema::create('users', function (Blueprint $table) {
-            $table->id("user_id")->unique();
+            $table->id();
             $table->string('username')->unique();
+            $table->string('email')->unique();
             $table->string('password');
             $table->string('name');
             $table->string('last_name');
-            $table->string('gender');
-            $table->date('date_of_registration')->default(now());
-            $table->integer('birth_year');
+            $table->string('role')->default('client');
             $table->rememberToken();
             $table->timestamps();
         });
@@ -29,7 +27,7 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void //Ovo je rollback funkcija
+    public function down(): void
     {
         Schema::dropIfExists('users');
     }

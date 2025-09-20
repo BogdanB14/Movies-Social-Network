@@ -9,9 +9,9 @@ return new class extends Migration
 
     public function up(): void
     {
-        if (Schema::hasColumn('movies', 'language')) {
+        if (Schema::hasColumn('movies', 'director')) {
             Schema::table('movies', function (Blueprint $table) {
-                $table->dropColumn('language'); //Brise kolonu langugage
+                $table->dropColumn('director');
             });
         }
     }
@@ -19,9 +19,9 @@ return new class extends Migration
 
     public function down(): void
     {
-        if (!Schema::hasColumn('movies', 'language')) {
+        if (!Schema::hasColumn('movies', 'director')) {
             Schema::table('movies', function (Blueprint $table) {
-                $table->string('language'); // Rollback funkcije up
+                $table->string('director');
             });
         }
     }

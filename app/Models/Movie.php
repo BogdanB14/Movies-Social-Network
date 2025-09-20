@@ -1,4 +1,5 @@
 <?php
+// app/Models/Movie.php
 
 namespace App\Models;
 
@@ -9,22 +10,24 @@ class Movie extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'movie_id';
-
     protected $fillable = [
         'title',
-        'year_of_release',
-        'genre',
         'director',
-        'language'
+        'year',
+        'genre',
+        'description',
+        'actors',
+        'poster',
     ];
 
-    protected $guarded = [
-        'movie_id'
+    protected $casts = [
+        'actors' => 'array', // array of strings
     ];
 
-    public function posts()
+    // comments (array of comment IDs is derived from relation)
+    public function comments()
     {
-        return $this->hasMany(Post::class);
+        return $this->hasMany(Comment::class, 'for_movie');
     }
+
 }

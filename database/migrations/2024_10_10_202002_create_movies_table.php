@@ -1,31 +1,26 @@
 <?php
+// database/migrations/2025_09_20_000001_create_movies_table.php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
-    /**
-     * Run the migrations.
-     */
+return new class extends Migration {
     public function up(): void
     {
-        Schema::dropIfExists('movies');
         Schema::create('movies', function (Blueprint $table) {
-            $table->id('movie_id')->unique(); // Specify 'movie_id' as the primary key
+            $table->id();
             $table->string('title');
-            $table->year('year_of_release');
-            $table->string('genre');
             $table->string('director');
-            $table->string('language');
+            $table->unsignedSmallInteger('year');
+            $table->string('genre')->nullable();
+            $table->text('description')->nullable();
+            $table->json('actors')->nullable(); //niz stringova
+            $table->string('poster')->nullable();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('movies');
