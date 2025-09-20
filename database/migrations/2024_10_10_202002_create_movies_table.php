@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string('genre')->nullable();
             $table->text('description')->nullable();
             $table->json('actors')->nullable(); //niz stringova
-            $table->string('poster')->nullable();
+            $table->string('poster', 2048)->nullable();
             $table->timestamps();
         });
     }
