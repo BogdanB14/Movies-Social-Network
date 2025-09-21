@@ -11,7 +11,6 @@ class MovieController extends Controller
 {
     /**
      * GET /api/movies
-     * Returns paginated list wrapped as { success, data: pagination }
      */
     public function index(Request $request)
     {
@@ -30,7 +29,6 @@ class MovieController extends Controller
 
     /**
      * GET /api/movies/{movie}
-     * Returns { success, data: movie }
      */
     public function show(Movie $movie)
     {
@@ -39,10 +37,8 @@ class MovieController extends Controller
             'data' => $movie,
         ]);
     }
-
     /**
-     * GET /api/movies/search?title=Inception
-     * Returns the movie object (raw) so your frontend can do: this.movie = res.data
+     * GET /api/movies/search?title=?
      */
     public function searchByTitle(Request $request)
     {
@@ -60,12 +56,10 @@ class MovieController extends Controller
             ], 404);
         }
 
-        return response()->json($movie); // raw object (frontend expects this)
+        return response()->json($movie);
     }
-
     /**
      * GET /api/movies/by-title/{title}
-     * Also returns the movie object (raw)
      */
     public function showByTitle(string $title)
     {
@@ -79,16 +73,10 @@ class MovieController extends Controller
             ], 404);
         }
 
-        return response()->json($movie); // raw object
+        return response()->json($movie);
     }
-
     /**
      * POST /api/movies (admin)
-     * Accepts multipart/form-data with:
-     *  - title, director, year, genre, description (strings)
-     *  - actors[] as array of strings
-     *  - poster as file image (required by your UI)
-     * Saves file to storage/app/public/posters and stores URL in DB (string).
      */
     public function store(Request $request)
     {
@@ -100,9 +88,8 @@ class MovieController extends Controller
             'description' => ['required', 'string'],
             'actors' => ['nullable', 'array'],
             'actors.*' => ['string', 'max:255'],
-            'poster' => ['required', 'file', 'image', 'max:5120'], // 5MB
+            'poster' => ['required', 'file', 'image', 'max:5120'], 
         ]);
-
         $posterUrl = null;
         if ($request->hasFile('poster')) {
             $file = $request->file('poster');
@@ -110,10 +97,9 @@ class MovieController extends Controller
             $ext = $file->getClientOriginalExtension();
             $filename = $slug . '-' . Str::random(8) . '.' . $ext;
 
-            $path = $file->storeAs('posters', $filename, 'public'); // storage/app/public/posters/...
-            $posterUrl = Storage::disk('public')->url($path);            // /storage/posters/...
+            $path = $file->storeAs('posters', $filename, 'public');
+            $posterUrl = Storage::disk('public')->url($path);
         }
-
         $movie = Movie::create([
             'title' => $data['title'],
             'director' => $data['director'],
@@ -130,16 +116,13 @@ class MovieController extends Controller
             'data' => $movie,
         ], 201);
     }
-
     /**
      * DELETE /api/movies/{movie} (admin)
-     * Deletes the movie and its local poster file if applicable.
      */
     public function destroy(Movie $movie)
     {
-        // If it's a local file (served via /storage), remove it
         if ($movie->poster && str_starts_with($movie->poster, url('/storage') . '/')) {
-            $relative = str_replace(url('/storage') . '/', '', $movie->poster); // posters/filename.jpg
+            $relative = str_replace(url('/storage') . '/', '', $movie->poster);
             Storage::disk('public')->delete($relative);
         }
 
@@ -150,10 +133,8 @@ class MovieController extends Controller
             'message' => 'Movie deleted.',
         ]);
     }
-
     /**
      * DELETE /api/movies/by-title/{title} (admin)
-     * Deletes by title (case-insensitive) and also cleans local poster.
      */
     public function destroyByTitle(string $title)
     {

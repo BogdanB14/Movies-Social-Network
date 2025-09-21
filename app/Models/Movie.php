@@ -21,10 +21,9 @@ class Movie extends Model
     ];
 
     protected $casts = [
-        'actors' => 'array', // array of strings
+        'actors' => 'array'
     ];
 
-    // comments (array of comment IDs is derived from relation)
     public function comments()
     {
         return $this->hasMany(Comment::class, 'for_movie');

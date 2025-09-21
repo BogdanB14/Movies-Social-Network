@@ -11,7 +11,6 @@ class CommentController extends Controller
 {
     /**
      * GET /api/movies/{movie}/comments
-     * Public: list comments for a movie id.
      */
     public function indexForMovie(Movie $movie)
     {
@@ -29,7 +28,6 @@ class CommentController extends Controller
 
     /**
      * GET /api/comments/by-movie-title/{title}
-     * Public: list comments for a movie title (case-insensitive).
      */
     public function indexByMovieTitle(string $title)
     {
@@ -116,7 +114,6 @@ class CommentController extends Controller
         ]);
     }
 
-    /** Keep response payload consistent across endpoints */
     private function dto(Comment $c): array
     {
         return [

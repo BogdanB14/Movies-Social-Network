@@ -26,10 +26,10 @@ class AuthController extends Controller
             'password' => $data['password'],
             'name' => $data['name'] ?? $data['username'],
             'last_name' => $data['last_name'] ?? null,
-            'role' => 'client', // default
+            'role' => 'client', 
         ]);
 
-        Auth::login($user); // issue session cookie (Sanctum SPA)
+        Auth::login($user);
 
         return response()->json([
             'success' => true,
@@ -44,7 +44,6 @@ class AuthController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-        // allow login by username OR email
         $field = filter_var($creds['username'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
         if (!Auth::attempt([$field => $creds['username'], 'password' => $creds['password']], true)) {
