@@ -6,6 +6,7 @@ use App\Models\Comment;
 use App\Models\Movie;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Http\Resources\CommentResource;
 
 class CommentController extends Controller
 {
@@ -14,16 +15,13 @@ class CommentController extends Controller
      */
     public function indexForMovie(Movie $movie)
     {
-        $comments = Comment::query()
-            ->with(['user:id,username,name,last_name,role', 'movie:id,title'])
-            ->where('for_movie', $movie->id)
+        $comments = $movie->comments()
+            ->with(['user:id,username,name,last_name,role', 'movie:id,title,year,genre,director'])
             ->latest('id')
             ->get();
 
-        return response()->json([
-            'success' => true,
-            'data' => $comments->map(fn($c) => $this->dto($c))->values(),
-        ]);
+        return CommentResource::collection($comments)
+            ->additional(['success' => true]);
     }
 
     /**

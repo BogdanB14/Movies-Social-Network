@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
-
+use App\Http\Resources\UserResource;
 class AuthController extends Controller
 {
     public function register(Request $request)
@@ -26,7 +26,7 @@ class AuthController extends Controller
             'password' => $data['password'],
             'name' => $data['name'] ?? $data['username'],
             'last_name' => $data['last_name'] ?? null,
-            'role' => 'client', 
+            'role' => 'client',
         ]);
 
         Auth::login($user);
@@ -50,12 +50,10 @@ class AuthController extends Controller
             return response()->json(['success' => false, 'message' => 'Invalid credentials.'], 422);
         }
 
-        $user = $request->user();
+        $request->session()->regenerate();
 
-        return response()->json([
-            'success' => true,
-            'user' => $this->userDto($user),
-        ]);
+        return (new UserResource($request->user()))
+            ->additional(['success' => true]);
     }
 
     public function logout(Request $request)

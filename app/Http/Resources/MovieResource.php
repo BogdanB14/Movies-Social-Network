@@ -12,14 +12,17 @@ class MovieResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'title' => $this->title,
-            'director' => $this->director,
-            'year' => $this->year,
-            'genre' => $this->genre,
+            'id'          => $this->id,
+            'title'       => $this->title,
+            'director'    => $this->director,
+            'year'        => $this->year,
+            'genre'       => $this->genre,
             'description' => $this->description,
-            'actors' => $this->actors,
-            'poster' => $this->poster,
+            'actors'      => $this->actors,
+            'poster'      => $this->poster,
+
+            // Optionally include comments only when eager-loaded
+            'comments' => CommentResource::collection($this->whenLoaded('comments')),
         ];
     }
 }

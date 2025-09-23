@@ -6,6 +6,7 @@ use App\Models\Movie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Http\Resources\MovieResource;
 
 class MovieController extends Controller
 {
@@ -32,11 +33,12 @@ class MovieController extends Controller
      */
     public function show(Movie $movie)
     {
-        return response()->json([
-            'success' => true,
-            'data' => $movie,
-        ]);
+        $movie->load(['comments.user']);
+
+        return (new MovieResource($movie))
+            ->additional(['success' => true]);
     }
+
     /**
      * GET /api/movies/search?title=?
      */
@@ -88,17 +90,18 @@ class MovieController extends Controller
             'description' => ['required', 'string'],
             'actors' => ['nullable', 'array'],
             'actors.*' => ['string', 'max:255'],
-            'poster' => ['required', 'file', 'image', 'max:5120'], 
+            'poster' => ['required', 'file', 'image', 'max:5120'],
         ]);
         $posterUrl = null;
-        if ($request->hasFile('poster')) {
-            $file = $request->file('poster');
-            $slug = Str::slug($data['title']);
-            $ext = $file->getClientOriginalExtension();
-            $filename = $slug . '-' . Str::random(8) . '.' . $ext;
+        //Dodata funkcionalnost dodavanja fajlova:
+        if ($request->hasFile('poster')) { //Da li je primljen file
+            $file = $request->file('poster'); // Primljen fajl se cuva u promenljivu $file
+            $slug = Str::slug($data['title']); //Pretvara u url frendly format -> 'The Godfather' -> 'the-godfather'
+            $ext = $file->getClientOriginalExtension(); //u ext se cuva ekstenzija fajla, svg, png...
+            $filename = $slug . '-' . Str::random(8) . '.' . $ext; //naziv fajla koji ce se cuvati, dodaju se 8 stringa da bi se izbeglo dupliranje fajlova (za svaki slucaj)
 
-            $path = $file->storeAs('posters', $filename, 'public');
-            $posterUrl = Storage::disk('public')->url($path);
+            $path = $file->storeAs('posters', $filename, 'public'); //putanja koja se cuva u storafe-u
+            $posterUrl = Storage::disk('public')->url($path); //Memorisanje u storage-u sa vrednoscu posterUrl
         }
         $movie = Movie::create([
             'title' => $data['title'],
